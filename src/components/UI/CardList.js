@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { CardLists } from '../../styles/Contents.styled'
+import { CardLists, Lists } from '../../styles/Contents.styled'
 
 const CardList = () => {
     const [list, setList] = useState([]);
@@ -14,6 +14,7 @@ const CardList = () => {
                                         .then(response => response.json()));
 
                 const details = await Promise.all(detailPromises);
+
                 setList(details);
             } catch(err) {      
                 console.error('상세 정보 불러오기 실패', err);
@@ -23,16 +24,36 @@ const CardList = () => {
         getLists();
     }, []);
 
+    const typesborderColor = (item) => {
+        const mainType = item.types[0].type.name;
+        if(mainType === 'grass') {
+            return {border: '5px solid green'}
+        } else if (mainType === 'fire') {
+            return {border: '5px solid red'}
+        } else if (mainType === 'water') {
+            return {border: '5px solid blue'}
+        } else if (mainType === 'bug') {
+            return {border: '5px solid brown'}
+        } else {
+            return {border: '5px solid #ddd'}
+        }
+    }
+
     return (
         <CardLists>
-            {list.map((item, index) => (
-                <div key={index}>
-                    <img src={item.sprites.front_default} alt={item.name} />
-                    <p>{item.name}</p>
-                    <p>
-                        타입: {item.types.map(t => t.type.name).join(', ')}
-                    </p>
-                </div>
+            {list.map((item) => (
+                <Lists 
+                    key={item.id}
+                    style={typesborderColor(item)}
+                > {/* 임시, route로 연결 예정 */}
+                    <div className='image-wrap'>
+                        <img src={item.sprites.front_default} alt={item.name} />
+                    </div>
+                    <ul>
+                        <li>{item.name}</li>
+                        <li>Type: {item.types.map(t => t.type.name).join(', ')}</li>
+                    </ul>
+                </Lists>
             ))}
         </CardLists>
     );
