@@ -39,26 +39,38 @@ export const CardLists = styled.div`
 
 export const Lists = styled.div`
     width: 100%;
+    height: 250px;
     border-radius: 5px;
-    display: flex;
-    flex-direction: column;
+    padding: 10px;
     box-sizing: border-box;
+    display: flex;
+    border: 1px solid #ddd;
+    position: relative;
+    transition: border 0.3s;
 
-    & img {
+    & .image-wrap {
+        width: fit-content;
+        height: fit-content;
+        border: 1px solid #ddd;
+        border-radius: 50%;
+        overflow: hidden;
+    }
+
+    &:before {
+        position: absolute;
+        content: '';
+        top: 0; 
+        left: 0;
         width: 100%;
-        border-bottom: 1px solid #ddd;
+        height: 100%;
+        border: ${(props) => props.hoverColor};
+        box-sizing: border-box;
+        border-radius: 5px;
+        opacity: 0;
+        transition: opacity 0.3s;
     }
 
-    & ul {
-        padding: 15px;
+    &:hover:before {
+        opacity: 1;
     }
-
-    & ul li {
-        text-align: center;
-        margin-bottom: 10px;
-    }
-
-    & ul li:last-child {
-        margin-bottom: 0;
-    }
-`
+`;
